@@ -1,8 +1,93 @@
-﻿@page "/person"
+﻿@using Devexpress.TestComponents.Data.Models
+
+@page "/person"
 @rendermode @(new InteractiveServerRenderMode(prerender:false))
 
 <h3>PersonPage</h3>
+<EditForm EditContext="@EC" Context="ECContext">
+  <FluentValidationValidator />
+  <DxFormLayout CssClass="w-100">
+
+    @* Id *@
+    <DxFormLayoutItem ColSpanMd="3">
+      <DxSpinEdit ColSpanMd="3"
+        ClearButtonDisplayMode="@DataEditorClearButtonDisplayMode.Auto"
+        @bind-Value="@_model.Id"
+        BindValueMode="@BindValueMode.OnLostFocus"
+      />
+      <ValidationMessage For="@(() => _model.Id)" />
+    </DxFormLayoutItem>
+
+
+    @* Name *@
+    <DxFormLayoutItem ColSpanMd="3">
+      <DxTextBox 
+        ClearButtonDisplayMode="@DataEditorClearButtonDisplayMode.Auto"
+        @bind-Text="@_model.Name"
+        BindValueMode="@BindValueMode.OnLostFocus"
+      />
+      <ValidationMessage For="@(() => _model.Name)" />
+    </DxFormLayoutItem>
+
+
+    @* Age *@
+    <DxFormLayoutItem ColSpanMd="3">
+      <DxSpinEdit ClearButtonDisplayMode="@DataEditorClearButtonDisplayMode.Auto"
+                  @bind-Value="@_model.Age"
+                  BindValueMode="@BindValueMode.OnLostFocus" />
+      <ValidationMessage For="@(() => _model.Age)" />
+    </DxFormLayoutItem>
+
+
+    @* Description *@
+    <DxFormLayoutItem ColSpanMd="3">
+      <DxTextBox @bind-Text="_model.Description" />
+      <ValidationMessage For="@(() => _model.Description)" />
+    </DxFormLayoutItem>
+
+    @* isMarried *@
+    <DxFormLayoutItem ColSpanMd="4">
+    </DxFormLayoutItem>
+
+    @* Wakeup *@
+    <DxFormLayoutItem ColSpanMd="4">
+    </DxFormLayoutItem>
+
+    @* Gotobed *@
+    <DxFormLayoutItem ColSpanMd="4">
+    </DxFormLayoutItem>
+
+  </DxFormLayout>
+</EditForm>
+
+<DxButton RenderStyle="@ButtonRenderStyle.Primary" Text="Submit" Click="@BtnSubmit"/>
+
 
 @code {
+  private Person _model;
+  public EditContext EC;
 
+  protected override void OnInitialized()
+  {
+    _model = new()
+    {
+      Id = 1,
+      Name = "John Doe",
+      Age = 25,
+      Description = "Hes a cool guy",
+      isMarried = false
+    };
+
+    EC = new EditContext(_model);
+  }
+
+
+  /*------------------------------------*/
+  /* Btns                               */
+  /*------------------------------------*/
+
+  private void BtnSubmit()
+  {
+
+  }
 }
