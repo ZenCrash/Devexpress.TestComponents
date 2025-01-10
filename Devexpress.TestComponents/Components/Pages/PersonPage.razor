@@ -3,58 +3,84 @@
 @page "/person"
 @rendermode @(new InteractiveServerRenderMode(prerender:false))
 
-<h3>PersonPage</h3>
+<h3>Test Person</h3>
 <EditForm EditContext="@EC" Context="ECContext">
   <FluentValidationValidator />
   <DxFormLayout CssClass="w-100">
 
     @* Id *@
-    <DxFormLayoutItem ColSpanMd="3">
-      <DxSpinEdit ColSpanMd="3"
-        ClearButtonDisplayMode="@DataEditorClearButtonDisplayMode.Auto"
-        @bind-Value="@_model.Id"
-        BindValueMode="@BindValueMode.OnLostFocus"
-      />
+    <DxFormLayoutItem Caption="Id" CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="3">
+      <DxSpinEdit
+      @bind-Value="@_model.Id"
+      BindValueMode="@BindValueMode.OnLostFocus"/>
+
       <ValidationMessage For="@(() => _model.Id)" />
     </DxFormLayoutItem>
 
 
     @* Name *@
-    <DxFormLayoutItem ColSpanMd="3">
+    <DxFormLayoutItem Caption="Name" CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="3">
       <DxTextBox 
-        ClearButtonDisplayMode="@DataEditorClearButtonDisplayMode.Auto"
-        @bind-Text="@_model.Name"
-        BindValueMode="@BindValueMode.OnLostFocus"
-      />
+      ClearButtonDisplayMode="@DataEditorClearButtonDisplayMode.Auto"
+      @bind-Text="@_model.Name"
+      BindValueMode="@BindValueMode.OnLostFocus"/>
+
       <ValidationMessage For="@(() => _model.Name)" />
     </DxFormLayoutItem>
 
 
     @* Age *@
-    <DxFormLayoutItem ColSpanMd="3">
-      <DxSpinEdit ClearButtonDisplayMode="@DataEditorClearButtonDisplayMode.Auto"
-                  @bind-Value="@_model.Age"
-                  BindValueMode="@BindValueMode.OnLostFocus" />
+    <DxFormLayoutItem Caption="Age" CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="3">
+      <DxSpinEdit
+      @bind-Value="@_model.Age"
+      BindValueMode="@BindValueMode.OnLostFocus" />
+
       <ValidationMessage For="@(() => _model.Age)" />
     </DxFormLayoutItem>
 
 
     @* Description *@
-    <DxFormLayoutItem ColSpanMd="3">
-      <DxTextBox @bind-Text="_model.Description" />
+    <DxFormLayoutItem Caption="Description" CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="3">
+      <DxTextBox ClearButtonDisplayMode="@DataEditorClearButtonDisplayMode.Auto"
+      @bind-Text="_model.Description" 
+      BindValueMode="@BindValueMode.OnLostFocus" />
+
       <ValidationMessage For="@(() => _model.Description)" />
     </DxFormLayoutItem>
 
     @* isMarried *@
-    <DxFormLayoutItem ColSpanMd="4">
+    <DxFormLayoutItem Caption="Is Married"  CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="4">
+      <DxCheckBox 
+      LabelPosition="@LabelPosition.Left"
+      CheckType="CheckType.Switch"
+      @bind-Checked="@_model.isMarried"
+      >
+      </DxCheckBox>
+
+      <ValidationMessage For="@(() => _model.isMarried)" />
+
     </DxFormLayoutItem>
 
     @* Wakeup *@
-    <DxFormLayoutItem ColSpanMd="4">
+    <DxFormLayoutItem Caption="Wakeup Time" CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="4">
+      <DxTimeEdit 
+      ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto" 
+      Format="HH:mm"
+      DisplayFormat="h:mm"
+      @bind-Time="_model.WakesUpAt" />
+
+      <ValidationMessage For="@(() => _model.WakesUpAt)" />
     </DxFormLayoutItem>
 
     @* Gotobed *@
-    <DxFormLayoutItem ColSpanMd="4">
+    <DxFormLayoutItem Caption="Go To Bed Time" CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="4">
+      <DxTimeEdit 
+      ClearButtonDisplayMode="DataEditorClearButtonDisplayMode.Auto"
+      Format="HH:mm"
+      DisplayFormat="HH:mm"
+      @bind-Time="_model.GoesToBedAt" />
+
+      <ValidationMessage For="@(() => _model.GoesToBedAt)" />
     </DxFormLayoutItem>
 
   </DxFormLayout>
@@ -62,10 +88,87 @@
 
 <DxButton RenderStyle="@ButtonRenderStyle.Primary" Text="Submit" Click="@BtnSubmit"/>
 
+@* model OnSubmit *@
+@if(isSubmitted)
+{
+  <div class="pt-2">
+    @* Id *@
+    @if (_model.Id != null)
+    {
+      <p>Id: @_model.Id</p>
+    }
+    else
+    {
+      <p>Id: -Null-</p>
+    }
+
+    @* Name *@
+    @if (_model.Name != null)
+    {
+      <p>Name: @_model.Name</p>
+    }
+    else
+    {
+      <p>Name: -Null-</p>
+    }
+
+    @* Age *@
+    @if (_model.Age != null)
+    {
+      <p>Age: @_model.Age</p>
+    }
+    else
+    {
+      <p>Age: -Null-</p>
+    }
+
+    @* Description *@
+    @if (_model.Description != null)
+    {
+      <p>Description: @_model.Description</p>
+    }
+    else
+    {
+      <p>Description: -Null-</p>
+    }
+
+    @* Is Married *@
+    @if (_model.isMarried != null)
+    {
+      <p>IsMarried: @_model.isMarried</p>
+    }
+    else
+    {
+      <p>IsMarried: -Null-</p>
+    }
+
+    @* WakesUpAt *@
+    @if (_model.WakesUpAt != null)
+    {
+      <p>WakesUpAt (TimeSpan): @_model.WakesUpAt</p>
+    }
+    else
+    {
+      <p>WakesUpAt: -Null-</p>
+    }
+
+    @* GoesToBedAt *@
+    @if (_model.GoesToBedAt != null)
+    {
+      <p>GoesToBedAt (TimeSpan): @_model.GoesToBedAt</p>
+    }
+    else
+    {
+      <p>GoesToBedAt: -Null-</p>
+    }
+  </div>
+}
 
 @code {
   private Person _model;
+
   public EditContext EC;
+  public bool isSubmitted = false;
 
   protected override void OnInitialized()
   {
@@ -75,7 +178,8 @@
       Name = "John Doe",
       Age = 25,
       Description = "Hes a cool guy",
-      isMarried = false
+      isMarried = false,
+
     };
 
     EC = new EditContext(_model);
@@ -88,6 +192,12 @@
 
   private void BtnSubmit()
   {
+    var xxx = _model;
 
+    isSubmitted = true;
+    if(EC.Validate())
+    {
+      
+    }
   }
 }

@@ -10,8 +10,15 @@ namespace Devexpress.TestComponents.Data.Validation
       RuleFor(x => x.isMarried)
         .NotNull();
         ;
+
+      RuleFor(x => x.WakesUpAt)
+        .NotNull()
+        ;
+
       RuleFor(x => x.GoesToBedAt)
+        .NotNull()
         .Must((x , field) => DateTimeGreaterThenCheck(x.WakesUpAt, x.GoesToBedAt))
+          .WithMessage("'Goes To Bed At' must be greater then 'Wakes Up At'")
         ;
     }
 
@@ -21,7 +28,7 @@ namespace Devexpress.TestComponents.Data.Validation
       {
         return true;
       }
-      return true;
+      return false;
     }
   }
 }
