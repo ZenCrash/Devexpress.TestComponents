@@ -8,12 +8,19 @@
 @rendermode @(new InteractiveServerRenderMode(prerender:false))
 
 <style>
-/*     .hiddenHeader {
-      display: none;
-  } */
-
+  /* Disable Header */
+  .dxbl-grid {
+    --dxbl-grid-top-fixed-body-height: none !important;
+  }
   .dxbl-grid-header-row {
-  display: none;
+    display: none;
+    height: none;
+  }
+
+  /* Disable Invalid Coloring */
+  .dxbl-text-edit.valid{
+    --dxbl-text-edit-border-color: none;
+    --dxbl-text-edit-focus-border-color: none;
   }
 </style>
 
