@@ -1,0 +1,114 @@
+﻿@inject NavigationManager NavManager
+
+@* @using Devexpress.TestComponents.Data.Models
+ *@
+@page "/personlist"
+
+@using Devexpress.TestComponents.Data.Models
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
+<style>
+    .hiddenHeader {
+      display: none;
+  }
+
+/*   .dxbl-grid-header-row {
+  display: none;
+  } */
+</style>
+
+<div class="p-1">
+  <div class="card shadow-sm bg-white">
+    @* Drag and Droppable Grid *@
+    <DxGrid id="grid"
+    CssClass="dxbl-grid w-100"
+    AllowSort="false"
+    AllowDragRows="true"
+    VirtualScrollingEnabled="false"
+    ShowAllRows="true"
+    Data="ObjectList"
+    ItemsDropped="Grid_ItemsDropped"
+    SearchText="@_gridSearchText"
+    ShowSearchBox="true"
+    CustomizeElement="Grid_CustomizeElement">
+
+      <Columns>
+        @* Row 1 *@
+        <DxGridDataColumn @ref="_grid_Row1" MinWidth="140" FieldName="@nameof(Person.Name)">
+          <CellDisplayTemplate>
+            <div class="d-flex align-items-center" style="display: flex; justify-content: space-between !important; align-items: center !important; width: 100%;">
+              <div id="AppointmentTypeList.Item.Description" class="sortable-item-content d-flex flex-column">
+                @{
+                  var item = ((Person)context.DataItem);
+                }
+                @(item.Name)
+                <span style="font-size: 13px; color: dimgray;">
+                  @string.Join(", ", new[]
+                                       {
+                  item.Age,
+
+                  }.Where(x => !string.IsNullOrWhiteSpace(x.ToString())))
+                </span>
+
+              </div>
+              <div>
+                <i class="bi-chevron-right"></i>
+              </div>
+            </div>
+          </CellDisplayTemplate>
+        </DxGridDataColumn>
+      </Columns>
+    </DxGrid>
+  </div>
+</div>
+
+@code {
+  //Grid
+  private string _gridSearchText;
+  private DxGridDataColumn _grid_Row1 { get; set; }
+  public List<Person> ObjectList = new();
+
+  protected override async Task OnInitializedAsync()
+  {
+
+    await LoadDataAsync();
+
+  }
+
+  private async Task LoadDataAsync()
+  {
+    ObjectList.Add(new Person { Id = 2, Name = "Jane Smith", Age = 30, Description = "Loves hiking and photography", isMarried = true });
+    ObjectList.Add(new Person { Id = 3, Name = "Mike Johnson", Age = 22, Description = "Enjoys gaming and coding", isMarried = false });
+    ObjectList.Add(new Person { Id = 4, Name = "Emma Brown", Age = 28, Description = "A talented artist and coffee enthusiast", isMarried = true });
+    ObjectList.Add(new Person { Id = 5, Name = "Chris Evans", Age = 35, Description = "A fitness coach who loves travel", isMarried = false });
+    ObjectList.Add(new Person { Id = 6, Name = "Sophia Davis", Age = 27, Description = "A passionate reader and aspiring writer", isMarried = false });
+    ObjectList.Add(new Person { Id = 7, Name = "Daniel Wilson", Age = 40, Description = "Tech enthusiast and entrepreneur", isMarried = true });
+    ObjectList.Add(new Person { Id = 8, Name = "Liam Martinez", Age = 19, Description = "College student studying biology", isMarried = false });
+    ObjectList.Add(new Person { Id = 9, Name = "Olivia Garcia", Age = 33, Description = "Chef with a love for experimenting with cuisines", isMarried = true });
+    ObjectList.Add(new Person { Id = 10, Name = "Ethan Lopez", Age = 29, Description = "An avid traveler and freelance photographer", isMarried = false });
+  }
+
+  //-----------------------------//
+  /* Grid Events                 */
+  //-----------------------------//
+
+  void Grid_CustomizeElement(GridCustomizeElementEventArgs args)
+  {
+    if (args.ElementType == GridElementType.SearchBoxContainer)
+    {
+      args.Style = "Width: 100%";
+    }
+    if (args.ElementType == GridElementType.HeaderRow)
+    {
+      args.CssClass = "hiddenHeader";
+    }
+  }
+
+  async Task Grid_ItemsDropped(GridItemsDroppedEventArgs args)
+  {
+    var droppedItem = (Person)args.DroppedItems[0];
+    ObjectList.Remove(droppedItem);
+    int index = await args.GetTargetDataSourceIndexAsync();
+    ObjectList.Insert(index, droppedItem);
+  }
+}

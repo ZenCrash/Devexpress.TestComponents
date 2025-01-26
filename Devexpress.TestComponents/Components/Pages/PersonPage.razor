@@ -1,6 +1,6 @@
 ﻿@using Devexpress.TestComponents.Data.Models
 
-@page "/person"
+@page "/personedit"
 @rendermode @(new InteractiveServerRenderMode(prerender:false))
 
 <h3>Test Person</h3>
@@ -17,7 +17,6 @@
       <ValidationMessage For="@(() => _model.Id)" />
     </DxFormLayoutItem>
 
-
     @* Name *@
     <DxFormLayoutItem Caption="Name" CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="3">
       <DxTextBox 
@@ -28,7 +27,6 @@
       <ValidationMessage For="@(() => _model.Name)" />
     </DxFormLayoutItem>
 
-
     @* Age *@
     <DxFormLayoutItem Caption="Age" CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="3">
       <DxSpinEdit
@@ -37,7 +35,6 @@
 
       <ValidationMessage For="@(() => _model.Age)" />
     </DxFormLayoutItem>
-
 
     @* Description *@
     <DxFormLayoutItem Caption="Description" CaptionPosition="@CaptionPosition.Horizontal" ColSpanMd="3">
@@ -87,6 +84,10 @@
 </EditForm>
 
 <DxButton RenderStyle="@ButtonRenderStyle.Primary" Text="Submit" Click="@BtnSubmit"/>
+
+<DxGrid>
+
+</DxGrid>
 
 @* model OnSubmit *@
 @if(isSubmitted)
